@@ -1,0 +1,84 @@
+<html>
+    <head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Simple Controller</title>
+        <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="themes/petes.min.css" />
+		
+    </head>
+	
+    <script type="text/javascript">
+        var server = 'test.mosquitto.org';
+        var topics = {viky,;
+        var wsUriC = "ws://"+server+":8080/mqtt";
+		var ws;
+		
+        function wsConnectC() {
+	
+            // Make the websocket connection
+            ws = new WebSocket(wsUriC);
+			
+            ws.onopen = function() {
+				$("#stat").removeClass("ui_icon_alert").addClass("ui-icon-check");
+            }
+			
+            ws.onclose = function() {
+				$("#stat").removeClass("ui_icon_check").addClass("ui-icon-alert");
+                setTimeout(wsConnectC,1000);
+            }
+        }
+		
+		
+function send(topic,payload)
+{
+ws.send('{"topic":"'+topic+'","payload":"{'+payload+'}"}');
+}	
+		
+</script>
+	
+	<body onload="wsConnectC();" onunload="ws.disconnect;">
+		<div data-role="page" id="one" data-theme="b">
+			<div data-role="content" data-theme="b">
+			<span id="stat" class="ui-btn ui_icon_alert ui-btn-icon-left">Cave Lighting System</span>
+					Red-1 RGB Controls
+					<div class="ui-grid-b">	
+						<div class="ui-block-a" ><input data-theme="a" type="button" value="red" onClick='send("red1","rgb:0,255,0,0,70,1")'></div>
+						<div class="ui-block-b"><input data-theme="b" type="button" value="green" onClick='send("red1","rgb:0,0,255,0,70,1")'></div>
+						<div class="ui-block-c"><input data-theme="c"  type="button" value="blue" onClick='send("red1","rgb:0,0,0,255,70,1")'></div>
+					</div>
+					<div class="ui-grid-b">	
+						<div class="ui-block-a"><input data-theme="d" type="button" value="purple" onClick='send("red1","rgb:0,255,0,255,70,1")'></div>
+						<div class="ui-block-b"><input data-theme="j"  type="button" value="pink" onClick='send("red1","rgb:0,255,100,100,70,1")'></div>
+						<div class="ui-block-c"><input data-theme="f" input type="button" value="cyan" onClick='send("red1","rgb:0,0,255,255,70,1")'></div>
+					</div>
+					<div class="ui-grid-b">	
+						<div class="ui-block-a"><input data-theme="g" type="button" value="white" onClick='send("red1","rgb:0,255,255,255,70,1")'></div>
+						<div class="ui-block-b"><input data-theme="g" type="button" value="warm" onClick='send("red1","rgb:0,255,200,120,70,1")'></div>
+						<div class="ui-block-c"><input data-theme="e" type="button" value="hot"    onClick='send("red1","rgb:0,255,140,40,70,1")'></div>
+						</div>
+					<div class="ui-grid-solo">	
+						<div class="ui-block-a"><input data-theme="h" type="button" value="off" onClick='send("red1","rgb:0,0,0,0,70,1")'></div>
+					</div>
+					Pergola Central Light
+					<div class="ui-grid-a">	
+						<div class="ui-block-a"><input data-theme="g" type="button" value="on" onClick='send("pergola","out0:1")'></div>
+						<div class="ui-block-b"><input data-theme="h" type="button" value="off" onClick='send("pergola","out0:0")'></div>
+					</div>			
+					Pergola PWM Light
+					<div class="ui-grid-b">	
+						<div class="ui-block-a"><input <input data-theme="a" type="button" value="red" onClick='send("pergola","pwm:99,0,0,10")'></div>
+						<div class="ui-block-b"><input type="button" value="green" onClick='send("pergola","pwm:0,99,0,10")'/></div>
+						<div class="ui-block-c"><input <input data-theme="c" type="button" value="blue" onClick='send("pergola","pwm:0,0,99,10")'/></div>
+					</div>
+					<div class="ui-grid-solo">	
+						<div class="ui-block-a"><input data-theme="h" type="button" value="off"  onClick='send("pergola","pwm:0,0,0,10")'/></div>
+					</div>
+			</div>
+		</div>			
+    </body>
+</html>
+
+
